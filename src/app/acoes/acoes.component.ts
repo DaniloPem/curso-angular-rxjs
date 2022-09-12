@@ -1,3 +1,5 @@
+import { AcoesService } from './acoes.service';
+import { Acoes } from './modelo/acoes';
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
@@ -8,6 +10,13 @@ import { FormControl } from '@angular/forms';
 })
 export class AcoesComponent {
   acoesInput = new FormControl();
+  acoes: Acoes;
 
-  constructor() {}
+  constructor(private acoesService: AcoesService) {}
+
+  ngOnInit() {
+    this.acoesService.getAcoes().subscribe((retornoApi) => {
+      this.acoes = retornoApi.payload;
+    });
+  }
 }
