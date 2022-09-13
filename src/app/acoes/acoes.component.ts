@@ -1,4 +1,4 @@
-import { tap, switchMap} from 'rxjs/operators';
+import { tap, switchMap, filter} from 'rxjs/operators';
 import { merge, Subscription } from 'rxjs';
 import { AcoesService } from './acoes.service';
 import { Acoes } from './modelo/acoes';
@@ -21,7 +21,8 @@ export class AcoesComponent {
     tap(() => {
       console.log('Fluxo do Filtro')
     }),
-  switchMap((valorDigitado) => this.acoesService.getAcoes(valorDigitado))
+    filter((valorDigitado) => valorDigitado.length >= 3 || !valorDigitado),
+    switchMap((valorDigitado) => this.acoesService.getAcoes(valorDigitado))
   );
   acoes$ = merge(this.todaAcoes$, this.filtroPeloInput$);
 
